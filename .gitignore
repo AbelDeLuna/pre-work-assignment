@@ -1,4 +1,4 @@
-# === Ideally env file should be included ===
+# === Ideally env file should not be included ===
 #.env
 node_modules/
 test-results/
