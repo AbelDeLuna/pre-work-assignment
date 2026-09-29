@@ -27,11 +27,11 @@ npm run report        # open the HTML report from the last run
 
 ## Project structure
 ```
-pages/                  Page objects (one class per page)
-tests/                  Test specs (flow and assertions only)
-test-data/              Users, product and customer data
-playwright.config.ts
-.env                    Should typically be ignored in .gitignore, but included for simplicity
+pages/                  # Page objects (one class per page)
+tests/                  # Test specs (flow and assertions only)
+test-data/              # Users, product and customer data
+playwright.config.ts    
+.env                    # Should typically be ignored in .gitignore, but included for simplicity
 ```
 
 ## Assumptions
