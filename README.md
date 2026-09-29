@@ -27,11 +27,11 @@ npm run report        # open the HTML report from the last run
 
 ## Project structure
 ```
-pages/         Page objects (one class per page)
-tests/         Test specs (flow and assertions only)
-test-data/     Users, product and customer data
+pages/                  Page objects (one class per page)
+tests/                  Test specs (flow and assertions only)
+test-data/              Users, product and customer data
 playwright.config.ts
-.env           Should typically be ignored in .gitignore, but included for setup simplicity
+.env                    Should typically be ignored in .gitignore, but included for simplicity
 ```
 
 ## Assumptions
@@ -53,16 +53,13 @@ playwright.config.ts
 - Locators use stable `data-test` attributes (configured via `testIdAttribute`) and roles, not brittle CSS or XPath.
 
 ## Failure handling
-- Screenshot on failure, video retained on failure, and a trace captured on first retry (viewable with `npx playwright show-trace`).
+- Each test is independent and starts from a fresh browser context, so one failure cannot cascade.
+- Screenshot and video created on failure, and a trace captured on first retry (viewable with `npx playwright show-trace`).
 - Retries are enabled only on CI (`retries: 2`) so local failures are not hidden.
 - Assertion messages from Playwright show expected vs. actual, and the HTML report includes the step that failed.
-- Each test is independent and starts from a fresh browser context, so one failure cannot cascade.
 
 ## Scaling to hundreds of tests
 - **Layers:** keep specs thin (intent and assertions), page objects for interactions, and shared fixtures/helpers for setup. Add components (header, cart badge) as reusable classes when pages share them.
 - **Fixtures:** use Playwright custom fixtures to inject page objects and pre-authenticated state. Log in once via `storageState` (or API) and reuse it, instead of logging in through the UI in every test.
 - **Organization:** folder per feature area (`tests/checkout`, `tests/auth`), tags such as `@smoke` and `@regression` to select subsets.
-- **Data:** central test-data modules or factories; create and clean data through APIs where available so tests stay independent.
-- **Speed:** fully parallel workers, sharding across CI machines (`--shard=1/4`), smoke suite on every PR and full suite nightly.
-- **Stability:** environment config via env vars (base URL, credentials from secrets), quarantine tags for known-flaky tests, trace-on-retry, and trend reporting on flaky rates.
-- **Quality gates:** ESLint and Prettier, and code review rules that keep assertions out of page objects except for reusable "expect" helpers.
+- **Stability:** environment config via env vars (base URL, credentials from secrets)
